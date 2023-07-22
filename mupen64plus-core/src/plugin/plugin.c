@@ -283,17 +283,23 @@ void plugin_connect_all(enum gfx_plugin_type gfx_plugin, enum rsp_plugin_type rs
          break;
       case GFX_RICE:
 #if defined(HAVE_OPENGL) || defined(HAVE_OPENGLES)
+#ifdef HAVE_RICE
          gfx = gfx_rice;
          break;
 #endif
+#endif
       case GFX_GLN64:
 #if defined(HAVE_OPENGL) || defined(HAVE_OPENGLES)
+#ifdef HAVE_GLN64
          gfx = gfx_gln64;
          break;
 #endif
+#endif
       default:
 #if defined(HAVE_OPENGL) || defined(HAVE_OPENGLES)
+#ifdef HAVE_GLIDE64
          gfx = gfx_glide64;
+#endif
 #elif defined(HAVE_THR_AL)
          gfx = gfx_angrylion;
 #endif

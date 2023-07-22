@@ -469,11 +469,17 @@ else ifeq ($(platform), qnx)
 # emscripten
 else ifeq ($(platform), emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
-   GLES := 1
-   WITH_DYNAREC :=
+   HAVE_OPENGL = 1
+   GLES = 1
 
+   HAVE_GLIDE64 = 1
+   HAVE_GLN64 = 1
+   HAVE_RICE = 0
    HAVE_PARALLEL = 0
-   CPUFLAGS += -DNOSSE -DEMSCRIPTEN -DNO_ASM -DNO_LIBCO -s USE_ZLIB=1 -s PRECISE_F32=1
+   HAVE_THR_AL = 0
+
+   CPUFLAGS += -DNOSSE -DEMSCRIPTEN -DNO_ASM -s USE_ZLIB=1
+   CPUFLAGS += -msimd128 -ftree-vectorize
 
    WITH_DYNAREC =
    CC = emcc
@@ -898,7 +904,9 @@ ifeq ($(DEBUG), 1)
       CPUOPTS += -O0 -g
    endif
 else
-ifneq (,$(findstring msvc,$(platform)))
+ifeq ($(platform), emscripten)
+   CPUOPTS += -O3
+else ifneq (,$(findstring msvc,$(platform)))
    CPUOPTS += -O2
 else
 	CPUOPTS += -Ofast
@@ -995,8 +1003,10 @@ CXXFLAGS += -DINLINE="inline"
 endif
 
 # Fix for GCC 10, make sure its added to all stages of the compiler
+ifneq ($(platform), emscripten)
 ifeq "$(shell expr `gcc -dumpversion` \>= 10)" "1"
   CPUFLAGS += -fcommon
+endif
 endif
 
 # LTO

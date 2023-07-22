@@ -24,10 +24,10 @@ ifeq ($(GLIDEN64),1)
 	HAVE_GLIDEN64 =1
 	HAVE_GLN64    =0
 else
-	HAVE_GLN64    =1
+	HAVE_GLN64    ?=1
 	HAVE_GLIDEN64 =0
 endif
-	HAVE_RICE     = 1
+	HAVE_RICE     ?= 1
 else
 	HAVE_GLIDE64 = 0
 	HAVE_GLN64    = 0
@@ -47,9 +47,7 @@ INCFLAGS += \
 	-I$(LIBRETRO_DIR)
 
 # libco
-ifneq ($(platform), emscripten)
 SOURCES_C += $(LIBRETRO_COMM_DIR)/libco/libco.c
-endif
 
 SOURCES_C += $(RSPDIR)/src/alist.c \
     $(RSPDIR)/src/alist_audio.c \
