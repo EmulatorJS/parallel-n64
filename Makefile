@@ -18,6 +18,7 @@ HAVE_PARALLEL_RSP?=0
 STATIC_LINKING=0
 WANT_LLVM_OVERRIDE=0
 HAVE_LTCG ?= 0
+EMULATORJS_THREADS ?= 0
 
 DYNAFLAGS :=
 INCFLAGS  :=
@@ -471,6 +472,10 @@ else ifeq ($(platform), emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
    HAVE_OPENGL = 1
    GLES = 1
+   
+   ifeq ($(EMULATORJS_THREADS), 1)
+      LDFLAGS += -pthread
+   endif
 
    HAVE_GLIDE64 = 1
    HAVE_GLN64 = 1
