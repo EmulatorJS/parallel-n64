@@ -475,6 +475,8 @@ else ifeq ($(platform), emscripten)
    
    ifeq ($(EMULATORJS_THREADS), 1)
       LDFLAGS += -pthread
+      CXXFLAGS += -pthread
+      CFLAGS += -pthread
    endif
 
    HAVE_GLIDE64 = 1
