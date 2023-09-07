@@ -915,6 +915,8 @@ ifeq ($(platform), emscripten)
    CPUOPTS += -O3
 else ifneq (,$(findstring msvc,$(platform)))
    CPUOPTS += -O2
+else ifeq ($(platform), emscripten)
+   CPUOPTS += -O2
 else
 	CPUOPTS += -Ofast
 endif
