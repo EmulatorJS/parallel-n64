@@ -916,7 +916,7 @@ ifeq ($(platform), emscripten)
 else ifneq (,$(findstring msvc,$(platform)))
    CPUOPTS += -O2
 else ifeq ($(platform), emscripten)
-   CPUOPTS += -O2
+   CPUOPTS += -O3
 else
 	CPUOPTS += -Ofast
 endif
@@ -1016,7 +1016,7 @@ ifneq ($(platform), emscripten)
 ifeq "$(shell expr `gcc -dumpversion` \>= 10)" "1"
   CPUFLAGS += -fcommon
 endif
-CFLAGS += fcommon
+CFLAGS += -fcommon
 endif
 
 # LTO
