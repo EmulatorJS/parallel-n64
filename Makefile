@@ -351,7 +351,7 @@ else ifneq (,$(findstring ios,$(platform)))
 
    HAVE_PARALLEL=0
    PLATCFLAGS += -DHAVE_POSIX_MEMALIGN -DNO_ASM
-   PLATCFLAGS += -DIOS -marm
+   PLATCFLAGS += -DIOS
    CPUFLAGS += -DNO_ASM  -DARM -D__arm__ -DARM_ASM -D__NEON_OPT
    LDFLAGS += -dynamiclib
 
@@ -361,10 +361,10 @@ else ifneq (,$(findstring ios,$(platform)))
       CXX = clang++ -arch arm64 -isysroot $(IOSSDK)
       CFLAGS += -DDONT_WANT_ARM_OPTIMIZATIONS
       CXXFLAGS += -Wc++11-extensions -std=c++11 -stdlib=libc++ -Wc++11-long-long
-      CPUFLAGS += -marm -mfpu=neon -mfloat-abi=softfp
       HAVE_NEON=0
    else
       CPUFLAGS += -marm -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp
+      PLATCFLAGS += -marm
       CC = clang -arch armv7 -isysroot $(IOSSDK)
       CXX = clang++ -arch armv7 -isysroot $(IOSSDK)
       HAVE_NEON=1
@@ -376,6 +376,7 @@ ifeq ($(platform),$(filter $(platform),ios9 ios-arm64))
       MINVERSION = -miphoneos-version-min=5.0
    endif
    PLATCFLAGS += $(MINVERSION)
+   LDFLAGS += $(MINVERSION)
 
 else ifeq ($(platform), tvos-arm64)
    ifeq ($(IOSSDK),)
